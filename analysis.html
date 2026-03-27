@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analysis | ARNOVA Conference History Database</title>
+  <meta name="description" content="Visual analysis and trends from 14 years of ARNOVA conference presentations.">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav-inner">
+      <a href="index.html" class="nav-brand">ARNOVA History</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="browse.html">Browse</a></li>
+        <li><a href="analysis.html">Analysis</a></li>
+        <li><a href="download.html">Download</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container--wide">
+      <h1>Analysis</h1>
+      <p>Visual explorations and trend analyses of 14 years of ARNOVA conference scholarship. Each section below is an independent analysis module.</p>
+
+      <!-- Analysis Navigation -->
+      <nav class="analysis-nav">
+        <a href="#growth">Conference Growth</a>
+        <a href="#tracks">Track Distribution</a>
+        <a href="#institutions">Institutional Presence</a>
+        <a href="#collaboration">Collaboration Patterns</a>
+        <a href="#keywords">Keyword Trends</a>
+      </nav>
+
+      <hr>
+
+      <!-- ============================================================
+           ANALYSIS 1: Conference Growth
+           ============================================================ -->
+      <div class="section" id="growth">
+        <p class="section-label">Analysis 1</p>
+        <h2 style="border-bottom:none;margin-top:0.5rem;">Conference Growth Over Time</h2>
+        <p>Presentation counts by year, showing the trajectory of ARNOVA conference participation from 2012 to 2025.</p>
+        <div class="chart-container">
+          <div style="height:350px;">
+            <canvas id="growth-chart"></canvas>
+          </div>
+        </div>
+        <div class="card" style="margin-top:1rem;">
+          <h4 style="margin-top:0;">Key Observations</h4>
+          <ul style="margin-bottom:0;">
+            <li><strong>Peak participation</strong> in 2018 (611 presentations) at the Austin, TX conference.</li>
+            <li><strong>COVID-19 impact</strong> is visible in 2020&ndash;2022, with virtual and post-pandemic conferences showing 50&ndash;60% reduction from peak.</li>
+            <li><strong>Recovery trend</strong> beginning in 2023, with 2025 returning to 371 presentations.</li>
+            <li><strong>Pre-pandemic growth</strong> from 2015&ndash;2019 showed consistent upward trajectory.</li>
+          </ul>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- ============================================================
+           ANALYSIS 2: Track Distribution
+           ============================================================ -->
+      <div class="section" id="tracks">
+        <p class="section-label">Analysis 2</p>
+        <h2 style="border-bottom:none;margin-top:0.5rem;">Track Distribution (2021&ndash;2024)</h2>
+        <p>Conference track classification is available for 2021&ndash;2024 (1,144 presentations). This chart shows the relative share of each research track.</p>
+        <div class="chart-container">
+          <div style="height:400px;">
+            <canvas id="track-chart"></canvas>
+          </div>
+        </div>
+        <div id="track-table-container"></div>
+      </div>
+
+      <hr>
+
+      <!-- ============================================================
+           ANALYSIS 3: Institutional Presence
+           ============================================================ -->
+      <div class="section" id="institutions">
+        <p class="section-label">Analysis 3</p>
+        <h2 style="border-bottom:none;margin-top:0.5rem;">Institutional Presence</h2>
+        <p>Top 20 institutions by author&ndash;presentation count. One count per author per presentation.</p>
+        <div class="chart-container">
+          <div style="height:500px;">
+            <canvas id="inst-chart"></canvas>
+          </div>
+        </div>
+        <div id="inst-yearly-container" style="margin-top:1.5rem;"></div>
+      </div>
+
+      <hr>
+
+      <!-- ============================================================
+           ANALYSIS 4: Collaboration Patterns
+           ============================================================ -->
+      <div class="section" id="collaboration">
+        <p class="section-label">Analysis 4</p>
+        <h2 style="border-bottom:none;margin-top:0.5rem;">Collaboration Patterns</h2>
+        <p>Average number of co-authors per presentation and the distribution of solo vs. collaborative work over time.</p>
+        <div class="chart-container">
+          <div style="height:350px;">
+            <canvas id="collab-chart"></canvas>
+          </div>
+        </div>
+        <div class="chart-container" style="margin-top:1rem;">
+          <div style="height:350px;">
+            <canvas id="collab-dist-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- ============================================================
+           ANALYSIS 5: Keyword Trends
+           ============================================================ -->
+      <div class="section" id="keywords">
+        <p class="section-label">Analysis 5</p>
+        <h2 style="border-bottom:none;margin-top:0.5rem;">Title Keyword Trends</h2>
+        <p>Most frequent terms appearing in presentation titles across all years. Common stop words are excluded.</p>
+        <div class="chart-container">
+          <div style="height:400px;">
+            <canvas id="keyword-chart"></canvas>
+          </div>
+        </div>
+        <div id="keyword-yearly-container" style="margin-top:1.5rem;"></div>
+      </div>
+
+      <hr>
+
+      <!-- ============================================================
+           ADD MORE ANALYSES HERE
+           Template:
+
+           <div class="section" id="your-id">
+             <p class="section-label">Analysis N</p>
+             <h2 style="border-bottom:none;margin-top:0.5rem;">Your Title</h2>
+             <p>Description...</p>
+             <div class="chart-container">
+               <div style="height:350px;">
+                 <canvas id="your-chart"></canvas>
+               </div>
+             </div>
+           </div>
+           <hr>
+
+           Then add rendering logic in js/analysis.js
+           ============================================================ -->
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>ARNOVA Conference History Database</h4>
+        <p>A structured dataset of 14 years of ARNOVA conference presentations.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      Data compiled from publicly available ARNOVA conference catalogs. Not affiliated with ARNOVA.
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/analysis.js"></script>
+</body>
+</html>

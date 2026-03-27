@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | ARNOVA Conference History Database</title>
+  <meta name="description" content="About the ARNOVA Conference History Database project, methodology, and limitations.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav-inner">
+      <a href="index.html" class="nav-brand">ARNOVA History</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="browse.html">Browse</a></li>
+        <li><a href="analysis.html">Analysis</a></li>
+        <li><a href="download.html">Download</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <h1>About This Project</h1>
+
+      <p>The ARNOVA Conference History Database is a structured dataset of presentation abstracts from the Association for Research on Nonprofit Organizations and Voluntary Action (ARNOVA) Annual Conference, spanning 2012 through 2025. It was constructed using AI-assisted PDF parsing to transform unstructured conference catalog PDFs into an analyzable research dataset.</p>
+
+      <p>This project is an <strong>independent research effort</strong> and is not affiliated with, endorsed by, or conducted on behalf of ARNOVA. All data were compiled exclusively from publicly available conference catalog PDFs accessible from the <a href="https://www.arnova.org/conference-catalog/" target="_blank">ARNOVA Conference Catalog</a> page.</p>
+
+      <div class="callout">
+        <p><strong>Inspiration:</strong> This project was inspired by the <a href="https://beperron.github.io/SSWR-History-Public/" target="_blank">SSWR Conference History Database</a> by Perron, Victor, &amp; Qi (2026), which compiled 23,793 presentations from the Society for Social Work and Research conferences (2005&ndash;2026).</p>
+      </div>
+
+      <hr>
+
+      <h2 id="methodology">Methodology</h2>
+
+      <h3>Data Collection</h3>
+      <p>Conference catalog PDFs were downloaded from the official ARNOVA website. The catalogs span 14 years (2012&ndash;2025) and contain a total of 5,406 presentation records.</p>
+
+      <h3>PDF Parsing</h3>
+      <p>The catalogs use six different PDF formats across the 14-year span, requiring format-specific parsers:</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Format</th><th>Years</th><th>Key Characteristics</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Compact multi-column</td><td>2012&ndash;2015</td><td>Landscape layout with title/abstract in left column, authors in right column. Parsed using word-coordinate extraction.</td></tr>
+            <tr><td>Single-column with email</td><td>2016</td><td>Portrait layout with email addresses on separate lines as entry anchors.</td></tr>
+            <tr><td>Email-in-parentheses</td><td>2017&ndash;2020</td><td><code>*Author(email)</code> format without track/keyword metadata.</td></tr>
+            <tr><td>Inline track-keywords</td><td>2021&ndash;2022</td><td><code>[Track] &ndash; Keywords:</code> inline format with semicolon-separated authors.</td></tr>
+            <tr><td>Standalone keywords</td><td>2023</td><td>Separate <code>Keywords:</code> line below track name.</td></tr>
+            <tr><td>Track + methodology</td><td>2024</td><td><code>Track:</code> and <code>Methodology Keywords:</code> as labeled fields.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The 2025 catalog uses a schedule-based format containing presentation titles and authors but no abstracts.</p>
+
+      <h3>Tools Used</h3>
+      <ul>
+        <li><strong>pdfplumber</strong> &mdash; PDF text and word-coordinate extraction</li>
+        <li><strong>openpyxl</strong> &mdash; Excel output generation</li>
+        <li><strong>Python regex</strong> &mdash; Format detection and text parsing</li>
+        <li><strong>Claude Code</strong> &mdash; AI-assisted parser development and debugging</li>
+      </ul>
+
+      <hr>
+
+      <h2 id="quality">Data Quality</h2>
+      <p>The dataset was constructed through iterative development with manual verification at each stage:</p>
+      <ul>
+        <li><strong>Format detection:</strong> Each year's catalog was automatically classified into one of six formats based on structural markers (track labels, keyword patterns, email formats).</li>
+        <li><strong>Entry counts:</strong> Parsed entry counts were compared against expected ranges based on catalog page counts and visual inspection.</li>
+        <li><strong>Author parsing:</strong> Multiple delimiter strategies (semicolons, email-in-parentheses, line-based) were applied based on format to accurately separate co-authors.</li>
+        <li><strong>Multi-column handling:</strong> Years 2012&ndash;2015 required word-coordinate-based column splitting (x=380 threshold) to properly separate title/abstract from author/affiliation columns.</li>
+      </ul>
+
+      <hr>
+
+      <h2 id="limitations">Known Limitations</h2>
+      <ol>
+        <li><strong>Author disambiguation is not performed.</strong> The same researcher appearing with different name spellings or affiliations across years is counted as separate authors.</li>
+        <li><strong>Abstract coverage is 81%.</strong> The 2025 catalog is schedule-only (no abstracts), and some entries in earlier years may have truncated abstracts due to PDF layout complexity.</li>
+        <li><strong>Track/keyword metadata is available only for 2021&ndash;2024</strong> (21% of entries). Earlier catalogs did not include this classification.</li>
+        <li><strong>Some title truncation may occur</strong> in the 2012&ndash;2015 multi-column format, where title continuation lines could be misclassified.</li>
+        <li><strong>The database captures published program content,</strong> not actual presentations delivered. Withdrawn presentations may be included.</li>
+        <li><strong>COVID-19 impact:</strong> The 2020&ndash;2021 virtual conferences show reduced presentation counts that reflect pandemic-era participation, not long-term trends.</li>
+        <li><strong>Affiliation data is point-in-time.</strong> Institutional affiliations reflect what was reported at each conference, not current positions.</li>
+      </ol>
+
+      <hr>
+
+      <h2 id="source">Source Data</h2>
+      <p>All data was extracted from publicly available PDF catalogs hosted at:</p>
+      <p><a href="https://www.arnova.org/conference-catalog/" target="_blank">https://www.arnova.org/conference-catalog/</a></p>
+      <p>The build script (<code>build_arnova_db.py</code>) downloads and caches all 14 catalog PDFs and can regenerate the full dataset from source.</p>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>ARNOVA Conference History Database</h4>
+        <p>A structured dataset of 14 years of ARNOVA conference presentations.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Links</h4>
+        <ul>
+          <li><a href="https://www.arnova.org/conference-catalog/" target="_blank">ARNOVA Conference Catalog</a></li>
+          <li><a href="https://www.arnova.org/" target="_blank">ARNOVA.org</a></li>
+          <li><a href="https://beperron.github.io/SSWR-History-Public/" target="_blank">SSWR Conference History (inspiration)</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      Data compiled from publicly available ARNOVA conference catalogs. This project is not affiliated with or endorsed by ARNOVA.
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

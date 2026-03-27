@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARNOVA Conference History Database</title>
+  <meta name="description" content="A structured dataset of 5,406 presentations from 14 years of ARNOVA annual conferences (2012-2025), covering nonprofit and voluntary action research.">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav-inner">
+      <a href="index.html" class="nav-brand">ARNOVA History</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="browse.html">Browse</a></li>
+        <li><a href="analysis.html">Analysis</a></li>
+        <li><a href="download.html">Download</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <div class="container--wide">
+    <div class="hero">
+      <span class="badge">v1.0.0</span>
+      <h1>ARNOVA Conference<br>History Database</h1>
+      <p class="subtitle">A comprehensive, structured dataset of presentations from the Association for Research on Nonprofit Organizations and Voluntary Action (ARNOVA) Annual Conference, spanning <strong>2012 through 2025</strong>.</p>
+    </div>
+  </div>
+
+  <!-- Stats Bar -->
+  <div class="stats-bar stats-bar--3">
+    <div class="stat-card">
+      <span class="number">5,406</span>
+      <span class="label">Presentations</span>
+    </div>
+    <div class="stat-card">
+      <span class="number">2,011</span>
+      <span class="label">Institutions</span>
+    </div>
+    <div class="stat-card">
+      <span class="number">14</span>
+      <span class="label">Years (2012&ndash;2025)</span>
+    </div>
+  </div>
+
+  <main>
+    <div class="container--wide">
+
+      <!-- About Section -->
+      <div class="section">
+        <p class="section-label">About</p>
+        <h2 id="about" style="border-bottom:none;margin-top:0.5rem;">What is this?</h2>
+        <p>This database compiles and structures all publicly available ARNOVA conference catalog data from 2012 to 2025 into an analyzable research dataset. Each entry includes the presentation title, abstract text, conference track, and methodology keywords (where available).</p>
+        <p>The data was extracted from 14 official ARNOVA conference catalog PDFs using automated parsing with manual quality review. The dataset enables longitudinal analysis of research trends and topical evolution in nonprofit and voluntary action scholarship.</p>
+      </div>
+
+      <hr>
+
+      <!-- Conference Growth Chart -->
+      <div class="section">
+        <p class="section-label">Trends</p>
+        <h2 id="growth" style="border-bottom:none;margin-top:0.5rem;">Conference Growth</h2>
+        <div class="chart-container">
+          <div style="height:300px;">
+            <canvas id="year-chart"></canvas>
+          </div>
+        </div>
+
+        <h3>Presentations by Year</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Year</th><th>Edition</th><th>Location</th><th>Presentations</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>2012</td><td>41st</td><td>Indianapolis, IN</td><td>420</td></tr>
+              <tr><td>2013</td><td>42nd</td><td>Hartford, CT</td><td>328</td></tr>
+              <tr><td>2014</td><td>43rd</td><td>Denver, CO</td><td>405</td></tr>
+              <tr><td>2015</td><td>44th</td><td>Chicago, IL</td><td>305</td></tr>
+              <tr><td>2016</td><td>45th</td><td>Washington, DC</td><td>403</td></tr>
+              <tr><td>2017</td><td>46th</td><td>Grand Rapids, MI</td><td>554</td></tr>
+              <tr><td>2018</td><td>47th</td><td>Austin, TX</td><td>611</td></tr>
+              <tr><td>2019</td><td>48th</td><td>San Diego, CA</td><td>580</td></tr>
+              <tr><td>2020</td><td>49th</td><td>Virtual</td><td>285</td></tr>
+              <tr><td>2021</td><td>50th</td><td>Virtual</td><td>284</td></tr>
+              <tr><td>2022</td><td>51st</td><td>Seattle, WA</td><td>252</td></tr>
+              <tr><td>2023</td><td>52nd</td><td>Orlando, FL</td><td>294</td></tr>
+              <tr><td>2024</td><td>53rd</td><td>Minneapolis, MN</td><td>314</td></tr>
+              <tr><td>2025</td><td>54th</td><td>Indianapolis, IN</td><td>371</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Tracks -->
+      <div class="section">
+        <p class="section-label">Classification</p>
+        <h2 id="tracks" style="border-bottom:none;margin-top:0.5rem;">Conference Tracks</h2>
+        <p>Track classification is available for 2021&ndash;2024 conferences (1,144 presentations). Earlier years' catalogs did not include track metadata.</p>
+        <div id="track-list" class="track-grid"></div>
+      </div>
+
+      <hr>
+
+      <!-- Top Affiliations -->
+      <div class="section">
+        <p class="section-label">Institutions</p>
+        <h2 id="affiliations" style="border-bottom:none;margin-top:0.5rem;">Top 20 Affiliations</h2>
+        <p>Based on author&ndash;presentation count (one count per author per presentation).</p>
+        <div id="aff-list" style="max-width:600px;"></div>
+      </div>
+
+      <hr>
+
+      <!-- Search -->
+      <div class="section">
+        <p class="section-label">Explore</p>
+        <h2 id="search" style="border-bottom:none;margin-top:0.5rem;">Search the Database</h2>
+        <div class="search-section">
+          <div class="search-box">
+            <input type="text" id="search-input" class="search-input" placeholder="Search titles, abstracts, keywords...">
+            <select id="year-filter" class="search-select">
+              <option value="">All Years</option>
+            </select>
+            <select id="track-filter" class="search-select">
+              <option value="">All Tracks</option>
+            </select>
+          </div>
+          <div id="search-stats" class="search-stats"></div>
+          <div id="search-results"></div>
+          <div id="pagination" class="pagination"></div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Data Schema -->
+      <div class="section">
+        <p class="section-label">Schema</p>
+        <h2 id="schema" style="border-bottom:none;margin-top:0.5rem;">Data Structure</h2>
+        <p>Each record in the dataset contains the following fields:</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Field</th><th>Type</th><th>Description</th><th>Coverage</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>year</code></td><td>integer</td><td>Conference year</td><td>100%</td></tr>
+              <tr><td><code>conference_edition</code></td><td>string</td><td>Edition number (e.g., "52nd")</td><td>100%</td></tr>
+              <tr><td><code>location</code></td><td>string</td><td>Conference location</td><td>100%</td></tr>
+              <tr><td><code>title</code></td><td>string</td><td>Presentation title</td><td>100%</td></tr>
+              <tr><td><code>abstract</code></td><td>string</td><td>Presentation abstract text</td><td>82%</td></tr>
+              <tr><td><code>track</code></td><td>string</td><td>Conference track classification</td><td>21% (2021&ndash;2024)</td></tr>
+              <tr><td><code>keywords</code></td><td>array</td><td>Methodology keywords</td><td>21% (2021&ndash;2024)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Example Record</h3>
+        <pre><code>{
+  "year": 2023,
+  "conference_edition": "52nd",
+  "location": "Orlando, FL",
+  "title": "Nonprofit Advocacy in the Digital Age",
+  "abstract": "This paper examines how nonprofit organizations...",
+  "track": "Public Policy, Law, Regulation, and Advocacy",
+  "keywords": ["Qualitative", "Empirical", "National"]
+}</code></pre>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>ARNOVA Conference History Database</h4>
+        <p>A structured dataset of 14 years of ARNOVA conference presentations, built for research and analysis.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Data</h4>
+        <ul>
+          <li><a href="download.html">Download</a></li>
+          <li><a href="browse.html">Browse</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Source</h4>
+        <ul>
+          <li><a href="https://www.arnova.org/conference-catalog/" target="_blank">ARNOVA Conference Catalog</a></li>
+          <li><a href="https://www.arnova.org/" target="_blank">ARNOVA.org</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      Data compiled from publicly available ARNOVA conference catalogs. This project is not affiliated with or endorsed by ARNOVA.
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

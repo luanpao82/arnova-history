@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download | ARNOVA Conference History Database</title>
+  <meta name="description" content="Download the ARNOVA Conference History Database in JSON, Excel, or CSV format.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav-inner">
+      <a href="index.html" class="nav-brand">ARNOVA History</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="browse.html">Browse</a></li>
+        <li><a href="analysis.html">Analysis</a></li>
+        <li><a href="download.html">Download</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <h1>Download &amp; Access</h1>
+      <p>The ARNOVA Conference History Database is available in three formats. All files contain the same 5,406 presentation records spanning 2012&ndash;2025.</p>
+
+      <hr>
+
+      <h2 id="formats">Data Files</h2>
+
+      <div class="download-grid">
+        <div class="download-card">
+          <h3>JSON</h3>
+          <p class="meta">Full structured data with nested author objects. Best for programmatic access and analysis.</p>
+          <p class="meta"><strong>Size:</strong> 6.4 MB</p>
+          <code>arnova_conference_catalog.json</code>
+        </div>
+
+        <div class="download-card">
+          <h3>Excel (.xlsx)</h3>
+          <p class="meta">Flattened columns: Year, Edition, Location, Title, Authors, Affiliations, Presenter(s), Abstract, Track, Keywords.</p>
+          <p class="meta"><strong>Size:</strong> 1.7 MB</p>
+          <code>arnova_conference_catalog.xlsx</code>
+        </div>
+
+        <div class="download-card">
+          <h3>CSV</h3>
+          <p class="meta">Comma-separated values with the same flattened column structure as Excel. Universal compatibility.</p>
+          <p class="meta"><strong>Size:</strong> 4.2 MB</p>
+          <code>arnova_conference_catalog.csv</code>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p><strong>Note:</strong> The downloadable data files include full author information (names, affiliations, emails). The build script and cached PDFs are in <code>research/arnova_data/</code>.</p>
+      </div>
+
+      <hr>
+
+      <h2 id="schema">Data Schema</h2>
+
+      <h3>JSON Structure</h3>
+      <p>The JSON file is an array of presentation objects. Each object has the following structure:</p>
+
+      <pre><code>{
+  "year": 2023,
+  "conference_edition": "52nd",
+  "location": "Orlando, FL",
+  "title": "Presentation Title",
+  "authors": [
+    {
+      "name": "Author Name",
+      "affiliation": "University",
+      "email": "email@university.edu",
+      "presenter": true
+    }
+  ],
+  "abstract": "Full abstract text...",
+  "track": "Conference Track Name",
+  "keywords": ["Qualitative", "Empirical"]
+}</code></pre>
+
+      <h3>Excel / CSV Columns</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Column</th><th>Description</th><th>Example</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Year</td><td>Conference year</td><td>2023</td></tr>
+            <tr><td>Edition</td><td>Conference edition</td><td>52nd</td></tr>
+            <tr><td>Location</td><td>Conference city/state</td><td>Orlando, FL</td></tr>
+            <tr><td>Title</td><td>Presentation title</td><td>Nonprofit Advocacy in...</td></tr>
+            <tr><td>Authors</td><td>Semicolon-separated author names</td><td>Jane Smith; John Doe</td></tr>
+            <tr><td>Affiliations</td><td>Semicolon-separated affiliations</td><td>Indiana University; ...</td></tr>
+            <tr><td>Presenter(s)</td><td>Presenting author(s)</td><td>Jane Smith</td></tr>
+            <tr><td>Abstract</td><td>Full abstract text</td><td>This paper examines...</td></tr>
+            <tr><td>Track</td><td>Conference track (2021&ndash;2024 only)</td><td>Public Policy, Law...</td></tr>
+            <tr><td>Keywords</td><td>Methodology keywords</td><td>Qualitative, Empirical</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr>
+
+      <h2 id="coverage">Data Coverage</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Field</th><th>Coverage</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Title</td><td>100%</td><td>All 5,406 entries</td></tr>
+            <tr><td>Authors</td><td>99%</td><td>Some entries have parsing limitations</td></tr>
+            <tr><td>Abstract</td><td>82% (4,431)</td><td>2025 catalog is schedule-only (no abstracts)</td></tr>
+            <tr><td>Track</td><td>21% (1,144)</td><td>Only available in 2021&ndash;2024 catalogs</td></tr>
+            <tr><td>Keywords</td><td>21% (1,143)</td><td>Only available in 2021&ndash;2024 catalogs</td></tr>
+            <tr><td>Email</td><td>~60%</td><td>Varies by year; some catalogs omit emails</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr>
+
+      <h2 id="rebuild">Rebuilding the Dataset</h2>
+      <p>The dataset can be rebuilt from source PDFs using the build script:</p>
+      <pre><code># Install dependencies
+pip install pdfplumber openpyxl
+
+# Run the build script
+python3 research/build_arnova_db.py</code></pre>
+      <p>This will download all 14 catalog PDFs (if not already cached in <code>arnova_data/</code>), parse them, and regenerate the JSON, Excel, and CSV output files.</p>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>ARNOVA Conference History Database</h4>
+        <p>A structured dataset of 14 years of ARNOVA conference presentations.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      Data compiled from publicly available ARNOVA conference catalogs. Not affiliated with ARNOVA.
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

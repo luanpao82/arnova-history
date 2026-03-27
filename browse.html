@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse | ARNOVA Conference History Database</title>
+  <meta name="description" content="Browse and search 5,406 presentations from 14 years of ARNOVA conferences.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav-inner">
+      <a href="index.html" class="nav-brand">ARNOVA History</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="browse.html">Browse</a></li>
+        <li><a href="analysis.html">Analysis</a></li>
+        <li><a href="download.html">Download</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container--wide">
+      <h1>Browse Presentations</h1>
+      <p>Search and explore all 5,406 presentations across 14 years of ARNOVA conferences. Use the search box to find specific topics or keywords. Filter by year or conference track.</p>
+
+      <div class="search-section">
+        <div class="search-box">
+          <input type="text" id="search-input" class="search-input" placeholder="Search titles, abstracts, keywords...">
+          <select id="year-filter" class="search-select">
+            <option value="">All Years</option>
+          </select>
+          <select id="track-filter" class="search-select">
+            <option value="">All Tracks</option>
+          </select>
+        </div>
+        <div id="search-stats" class="search-stats"></div>
+        <div id="search-results"></div>
+        <div id="pagination" class="pagination"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>ARNOVA Conference History Database</h4>
+        <p>A structured dataset of 14 years of ARNOVA conference presentations.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      Data compiled from publicly available ARNOVA conference catalogs. Not affiliated with ARNOVA.
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

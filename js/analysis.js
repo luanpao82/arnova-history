@@ -334,7 +334,7 @@
     }
   }
 
-  // ---- Analysis 4: Title Keyword Trends ----
+  // ---- Analysis 5: Title Keyword Trends ----
   function renderKeywordChart() {
     var canvas = document.getElementById('keyword-chart');
     if (!canvas || !DATA) return;
@@ -414,13 +414,17 @@
       var kwYearly = {};
       top5.forEach(function (w) { kwYearly[w] = {}; years.forEach(function (y) { kwYearly[w][y] = 0; }); });
 
+      // Pre-compile regexes outside the loop
+      var kwRegexes = top5.map(function (w) {
+        return new RegExp('\\b' + w.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '\\b', 'g');
+      });
+
       DATA.entries.forEach(function (e) {
         if (!e.t) return;
         var y = String(e.y);
         var titleLower = e.t.toLowerCase();
-        top5.forEach(function (w) {
-          var regex = new RegExp('\\b' + w.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '\\b', 'g');
-          var matches = titleLower.match(regex);
+        top5.forEach(function (w, i) {
+          var matches = titleLower.match(kwRegexes[i]);
           if (matches) kwYearly[w][y] = (kwYearly[w][y] || 0) + matches.length;
         });
       });
@@ -465,7 +469,7 @@
 
   function escHtml(s) {
     if (!s) return '';
-    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
 })();

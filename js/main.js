@@ -44,6 +44,7 @@
       DATA = data;
       populateFilters();
       renderChart();
+      renderYearStatsTable();
       renderTracks();
       renderAffiliations();
       doSearch();
@@ -208,6 +209,19 @@
         }
       }
     });
+  }
+
+  // ---- Year Stats Table (index page only) ----
+  function renderYearStatsTable() {
+    var tbody = document.getElementById('year-stats-tbody');
+    if (!tbody || !DATA) return;
+    var years = Object.keys(DATA.year_stats).sort();
+    var html = '';
+    years.forEach(function (y) {
+      var info = DATA.year_stats[y];
+      html += '<tr><td>' + y + '</td><td>' + escHtml(info.edition) + '</td><td>' + escHtml(info.location) + '</td><td>' + info.count + '</td></tr>';
+    });
+    tbody.innerHTML = html;
   }
 
   // ---- Tracks (index page only) ----
